@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Hold on, be STRONG! — Active Ageing, Well-Being & Digital Inclusion</title>
+<meta name="description" content="An Erasmus+ project supporting adults 60+ — including migrants and refugees — to learn, connect and thrive through a holistic well-being, digital and creativity programme." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+  /* ============ TOKENS ============ */
+  :root {
+    /* Brand — drawn from the project logo: black + bold red + warm orange */
+    --red-700: #b71910;
+    --red-600: #e0241a;   /* "STRONG" red — primary */
+    --red-500: #f0402f;
+    --red-100: #fde2df;
+    --red-50:  #fff3f1;
+
+    --orange-700: #cf6606;
+    --orange-600: #f5821f; /* energy / clothing orange — secondary */
+    --orange-500: #fb9a3e;
+    --orange-100: #fde7cf;
+    --orange-50:  #fff6ec;
+
+    /* Supporting (partner + EU) */
+    --green-700: #3a7530;
+    --green-600: #4f9a3f;  /* TeneLearning green */
+    --green-500: #7fb541;  /* TeneLearning light leaf */
+    --green-100: #e6f2dd;
+    --green-50:  #f3f9ee;
+
+    --blue-700: #003d75;
+    --blue-600: #00529c;   /* EU blue */
+    --blue-100: #e0ecf7;
+    --blue-50:  #eef5fb;
+
+    --eu-yellow: #ffd617;
+
+    /* Neutrals — warm, near-black like the logo type */
+    --ink-900: #1a1714;
+    --ink-700: #46403a;
+    --ink-500: #6b635b;
+    --ink-300: #a39a90;
+    --line:    #ece5da;
+    --paper:   #ffffff;
+    --paper-2: #faf6f0;   /* warm cream */
+    --paper-3: #f4ede2;
+
+    --font-display: 'Baloo 2', system-ui, sans-serif;
+    --font-body: 'Nunito Sans', system-ui, sans-serif;
+
+    --r-sm: 12px; --r-md: 18px; --r-lg: 26px; --r-xl: 34px;
+    --sh-1: 0 2px 8px rgba(26,23,20,.06);
+    --sh-2: 0 14px 34px -14px rgba(26,23,20,.20);
+    --sh-3: 0 30px 64px -24px rgba(26,23,20,.30);
+    --maxw: 1200px;
+    --ease: cubic-bezier(.22,.61,.36,1);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0; font-family: var(--font-body); color: var(--ink-900);
+    background: var(--paper); font-size: 19px; line-height: 1.65;
+    -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  }
+  h1,h2,h3,h4 { font-family: var(--font-display); margin: 0; line-height: 1.08; letter-spacing: -.01em; font-weight: 800; color: var(--ink-900); }
+  p { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  img { max-width: 100%; display: block; }
+  ul { margin: 0; padding: 0; list-style: none; }
+
+  .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 10px; font-family: var(--font-display); font-weight: 700; font-size: 15px; letter-spacing: .1em; text-transform: uppercase; color: var(--red-600); }
+  .eyebrow::before { content: ""; width: 26px; height: 3px; border-radius: 3px; background: currentColor; }
+  .eyebrow.center { justify-content: center; }
+
+  a:focus-visible, button:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--blue-600); outline-offset: 3px; border-radius: 6px; }
+  .skip-link { position: absolute; left: 16px; top: -60px; background: var(--red-600); color: #fff; padding: 12px 18px; border-radius: 10px; font-weight: 700; z-index: 200; transition: top .2s var(--ease); }
+  .skip-link:focus { top: 16px; }
+
+  /* ============ BUTTONS ============ */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 11px; font-family: var(--font-display); font-weight: 700; font-size: 18px; padding: 16px 28px; border-radius: 100px; border: none; cursor: pointer; min-height: 58px; transition: transform .25s var(--ease), box-shadow .25s var(--ease), background .2s var(--ease); white-space: nowrap; }
+  .btn :where(svg) { width: 22px; height: 22px; }
+  .btn-red { background: var(--red-600); color: #fff; box-shadow: 0 12px 26px -10px rgba(224,36,26,.55); }
+  .btn-red:hover { background: var(--red-700); transform: translateY(-3px); box-shadow: 0 18px 34px -10px rgba(224,36,26,.6); }
+  .btn-dark { background: var(--ink-900); color: #fff; }
+  .btn-dark:hover { background: #000; transform: translateY(-3px); box-shadow: var(--sh-2); }
+  .btn-ghost { background: #fff; color: var(--ink-900); border: 1.5px solid var(--line); box-shadow: var(--sh-1); }
+  .btn-ghost:hover { transform: translateY(-3px); box-shadow: var(--sh-2); border-color: var(--orange-500); }
+
+  /* ============ HEADER ============ */
+  .site-header { position: fixed; inset: 0 0 auto 0; z-index: 100; transition: background .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); border-bottom: 1px solid transparent; }
+  .site-header.scrolled { background: rgba(255,255,255,.8); -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4); border-bottom-color: var(--line); box-shadow: 0 6px 24px -18px rgba(26,23,20,.4); }
+  .nav { display: flex; align-items: center; gap: 26px; height: 82px; }
+  .brand { display: flex; align-items: center; margin-right: auto; }
+  .brand img { height: 60px; width: auto; transform-origin: left center; transition: transform .3s var(--ease); }
+  .brand:hover img, .brand:focus-visible img { transform: scale(1.05) rotate(-1.5deg); }
+  @media (prefers-reduced-motion: no-preference) { .brand:hover img { animation: logoWiggle .65s var(--ease); } }
+  @keyframes logoWiggle { 0%,100% { transform: scale(1.05) rotate(-1.5deg); } 28% { transform: scale(1.08) rotate(2.5deg); } 60% { transform: scale(1.06) rotate(-2.5deg); } }
+  .nav-links { display: flex; align-items: center; gap: 4px; }
+  .nav-links a { font-family: var(--font-display); font-weight: 600; font-size: 17px; padding: 10px 15px; border-radius: 100px; color: var(--ink-700); transition: background .2s var(--ease), color .2s var(--ease); }
+  .nav-links a:hover { background: var(--red-50); color: var(--red-600); }
+
+  .lang { position: relative; }
+  .lang-btn { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 16px; padding: 10px 15px; min-height: 48px; border-radius: 100px; background: #fff; border: 1.5px solid var(--line); color: var(--ink-900); transition: border-color .2s var(--ease), box-shadow .2s var(--ease); }
+  .lang-btn:hover { border-color: var(--orange-500); box-shadow: var(--sh-1); }
+  .lang-btn svg { width: 18px; height: 18px; }
+  .lang-btn .chev { transition: transform .25s var(--ease); }
+  .lang[aria-expanded="true"] .chev { transform: rotate(180deg); }
+  .lang-menu { position: absolute; right: 0; top: calc(100% + 10px); min-width: 190px; background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); box-shadow: var(--sh-2); padding: 8px; z-index: 50; opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity .2s var(--ease), transform .2s var(--ease), visibility .2s; }
+  .lang[aria-expanded="true"] .lang-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+  .lang-menu button { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; padding: 12px 14px; border: none; background: none; cursor: pointer; border-radius: 10px; font-family: var(--font-body); font-weight: 600; font-size: 16px; color: var(--ink-700); }
+  .lang-menu button:hover { background: var(--red-50); color: var(--red-600); }
+  .lang-menu button[aria-current="true"] { color: var(--red-600); background: var(--red-50); }
+  .flag { font-size: 20px; line-height: 1; }
+  .nav-toggle { display: none; }
+
+  /* ============ HERO ============ */
+  .hero { position: relative; overflow: hidden; padding: 150px 0 92px; background:
+      radial-gradient(110% 80% at 88% -10%, var(--orange-50) 0%, transparent 55%),
+      radial-gradient(80% 70% at -5% 0%, var(--red-50) 0%, transparent 52%),
+      linear-gradient(180deg, #fff 0%, var(--paper-2) 100%); }
+  .blob { position: absolute; border-radius: 50%; filter: blur(54px); z-index: 0; opacity: .5; pointer-events: none; }
+  .blob.b1 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(245,130,31,.5), transparent 70%); top: -120px; right: -40px; animation: float1 20s var(--ease) infinite; }
+  .blob.b2 { width: 360px; height: 360px; background: radial-gradient(circle, rgba(224,36,26,.34), transparent 70%); bottom: -130px; left: -70px; animation: float2 24s var(--ease) infinite; }
+  @keyframes float1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-36px,42px) scale(1.08)} }
+  @keyframes float2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(44px,-32px) scale(1.1)} }
+
+  .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.04fr .96fr; gap: 60px; align-items: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 24px; background: #fff; border: 1px solid var(--line); border-radius: 100px; padding: 7px 18px 7px 8px; box-shadow: var(--sh-1); font-family: var(--font-display); font-weight: 700; font-size: 14.5px; color: var(--ink-700); }
+  .hero-badge img { height: 30px; width: auto; border-radius: 4px; }
+  .hero-badge .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--orange-500); flex: none; }
+  .hero h1 { font-size: clamp(38px, 5.2vw, 66px); font-weight: 800; }
+  .hero h1 .r { color: var(--red-600); }
+  .hero h1 .o { color: var(--orange-600); }
+  .hero .sub { font-size: clamp(18px, 1.9vw, 22px); color: var(--ink-500); margin-top: 22px; max-width: 40ch; line-height: 1.55; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+  .hero-meta { display: flex; flex-wrap: wrap; gap: 22px 36px; margin-top: 38px; padding-top: 30px; border-top: 1px solid var(--line); }
+  .hero-stat .n { font-family: var(--font-display); font-weight: 800; font-size: 32px; line-height: 1; color: var(--red-600); }
+  .hero-stat:nth-child(2) .n { color: var(--orange-600); }
+  .hero-stat:nth-child(3) .n { color: var(--green-600); }
+  .hero-stat .l { font-size: 15px; font-weight: 600; color: var(--ink-500); margin-top: 6px; }
+
+  .hero-visual { position: relative; }
+  .hero-photo { position: relative; border-radius: var(--r-xl); overflow: hidden; aspect-ratio: 1/1; box-shadow: var(--sh-3); background: var(--paper-3); }
+  .hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .hero-deco { position: absolute; width: 130px; height: 130px; border-radius: 30px; z-index: -1; }
+  .hero-deco.d1 { background: var(--red-100); top: -22px; left: -22px; }
+  .hero-deco.d2 { background: var(--orange-100); bottom: -22px; right: -22px; }
+  .hero-float-card { position: absolute; background: #fff; border-radius: var(--r-md); box-shadow: var(--sh-2); padding: 14px 18px; display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); }
+  .hero-float-card .ic { width: 44px; height: 44px; border-radius: 12px; display: grid; place-items: center; flex: none; background: var(--red-100); color: var(--red-600); }
+  .hero-float-card.fc2 .ic { background: var(--orange-100); color: var(--orange-600); }
+  .hero-float-card .ic svg { width: 24px; height: 24px; }
+  .hero-float-card .t { font-family: var(--font-display); font-weight: 700; font-size: 15.5px; line-height: 1.1; }
+  .hero-float-card .s { font-size: 13px; color: var(--ink-500); }
+  .hero-float-card.fc1 { bottom: 28px; left: -30px; }
+  .hero-float-card.fc2 { top: 26px; right: -26px; }
+
+  /* ============ SECTIONS ============ */
+  .section-pad { padding: 100px 0; }
+  .section-head { max-width: 760px; }
+  .section-head.center { margin: 0 auto; text-align: center; }
+  .section-head h2 { font-size: clamp(32px, 4vw, 50px); margin-top: 16px; }
+  .section-head p { font-size: 20px; color: var(--ink-500); margin-top: 18px; line-height: 1.6; }
+
+  /* ============ ABOUT ============ */
+  .about { background: var(--paper-2); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+  .about-points { display: grid; gap: 16px; margin-top: 32px; }
+  .about-point { display: flex; gap: 16px; align-items: flex-start; }
+  .about-point .pic { width: 52px; height: 52px; border-radius: 14px; flex: none; display: grid; place-items: center; }
+  .about-point .pic svg { width: 26px; height: 26px; }
+  .about-point h4 { font-size: 19px; margin-bottom: 3px; }
+  .about-point p { font-size: 16.5px; color: var(--ink-500); line-height: 1.5; }
+  .ap-red .pic { background: var(--red-100); color: var(--red-600); }
+  .ap-blue .pic { background: var(--blue-100); color: var(--blue-600); }
+  .ap-green .pic { background: var(--green-100); color: var(--green-600); }
+
+  .partners { background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 30px; box-shadow: var(--sh-2); }
+  .partners h3 { font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-300); font-weight: 700; }
+  .partner-list { display: grid; gap: 14px; margin-top: 20px; }
+  .partner { display: flex; align-items: center; gap: 18px; padding: 18px 20px; border-radius: var(--r-md); background: var(--paper-2); border: 1px solid var(--line); transition: transform .25s var(--ease), box-shadow .25s var(--ease); }
+  .partner:hover { transform: translateY(-3px); box-shadow: var(--sh-2); }
+  .partner .logo-box { width: 132px; flex: none; display: grid; place-items: center; }
+  .partner .logo-box img { max-height: 56px; width: auto; }
+  .partner .meta b { font-family: var(--font-display); font-size: 17px; display: block; line-height: 1.15; }
+  .partner .meta span { font-size: 14.5px; color: var(--ink-500); }
+  .facts { display: flex; gap: 14px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .fact { flex: 1; text-align: center; background: var(--red-50); border-radius: var(--r-md); padding: 16px 10px; }
+  .fact:nth-child(2) { background: var(--orange-50); }
+  .fact:nth-child(3) { background: var(--green-50); }
+  .fact .n { font-family: var(--font-display); font-weight: 800; font-size: 24px; color: var(--red-600); }
+  .fact:nth-child(2) .n { color: var(--orange-600); }
+  .fact:nth-child(3) .n { color: var(--green-600); }
+  .fact .l { font-size: 13px; font-weight: 600; color: var(--ink-500); margin-top: 3px; }
+
+  /* ============ MOMENT BAND ============ */
+  .band { position: relative; min-height: 460px; display: grid; place-items: center; overflow: hidden; }
+  .band-bg { position: absolute; inset: 0; z-index: -2; background-size: cover; background-position: center 38%; }
+  .band-scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(100deg, rgba(26,23,20,.82) 0%, rgba(26,23,20,.5) 45%, rgba(26,23,20,.15) 100%); }
+  .band-inner { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 80px 28px; color: #fff; }
+  .band-inner .qmark { font-family: var(--font-display); font-size: 70px; color: var(--orange-500); line-height: .6; }
+  .band-inner blockquote { font-family: var(--font-display); font-weight: 700; font-size: clamp(24px, 3vw, 38px); line-height: 1.25; max-width: 20ch; margin: 14px 0 0; }
+  .band-inner cite { display: block; margin-top: 22px; font-style: normal; font-size: 16px; color: rgba(255,255,255,.78); }
+
+  /* ============ TOOLKIT ============ */
+  .toolkit-top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .toolkit-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 52px; }
+  .module { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 24px; overflow: hidden; transition: transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); }
+  .module::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; opacity: 0; transition: opacity .3s var(--ease); background: var(--cat); }
+  .module:hover { transform: translateY(-8px); box-shadow: var(--sh-3); border-color: transparent; }
+  .module:hover::before { opacity: 1; }
+  .module .num { position: absolute; top: 20px; right: 22px; font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--ink-300); }
+  .module .m-ic { width: 58px; height: 58px; border-radius: 16px; display: grid; place-items: center; background: var(--cat-soft); color: var(--cat); transition: transform .3s var(--ease); }
+  .module .m-ic svg { width: 29px; height: 29px; }
+  .module:hover .m-ic { transform: scale(1.12) rotate(-4deg); }
+  .module h3 { font-size: 19px; margin-top: 18px; line-height: 1.12; }
+  .module p { font-size: 15px; color: var(--ink-500); margin-top: 7px; line-height: 1.5; }
+  .module .tag { display: inline-flex; align-items: center; gap: 7px; margin-top: 15px; font-family: var(--font-display); font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--cat); background: var(--cat-soft); padding: 5px 11px; border-radius: 100px; }
+  .cat-red { --cat: var(--red-600); --cat-soft: var(--red-100); }
+  .cat-orange { --cat: var(--orange-700); --cat-soft: var(--orange-100); }
+  .cat-green { --cat: var(--green-600); --cat-soft: var(--green-100); }
+  .cat-blue { --cat: var(--blue-600); --cat-soft: var(--blue-100); }
+
+  /* ============ GALLERY CAROUSEL ============ */
+  .gallery { background: var(--paper-2); overflow: hidden; }
+  .gallery-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+  .car-nav { display: flex; gap: 10px; }
+  .car-btn { width: 56px; height: 56px; border-radius: 50%; border: 1.5px solid var(--line); background: #fff; color: var(--ink-900); cursor: pointer; display: grid; place-items: center; transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease), border-color .2s var(--ease); }
+  .car-btn svg { width: 24px; height: 24px; }
+  .car-btn:hover { background: var(--red-600); color: #fff; border-color: var(--red-600); transform: translateY(-2px); }
+  .car-btn:disabled { opacity: .4; cursor: default; transform: none; background: #fff; color: var(--ink-900); border-color: var(--line); }
+  .gallery-track { display: flex; gap: 22px; margin-top: 44px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding-bottom: 8px; -ms-overflow-style: none; scrollbar-width: none; }
+  .gallery-track::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .gallery-track { scroll-behavior: auto; } }
+  .gphoto { position: relative; flex: 0 0 clamp(280px, 42%, 480px); scroll-snap-align: start; border-radius: var(--r-lg); overflow: hidden; aspect-ratio: 1/1; box-shadow: var(--sh-2); background: var(--paper-3); }
+  .gphoto img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
+  .gphoto:hover img { transform: scale(1.04); }
+  .gphoto .cap { position: absolute; inset: auto 0 0 0; padding: 46px 22px 20px; color: #fff; background: linear-gradient(180deg, transparent, rgba(26,23,20,.82)); }
+  .gphoto .cap .loc { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-display); font-weight: 700; font-size: 12.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--orange-500); }
+  .gphoto .cap .loc svg { width: 14px; height: 14px; }
+  .gphoto .cap p { font-family: var(--font-display); font-weight: 600; font-size: 18px; margin-top: 5px; line-height: 1.2; }
+  .gallery-hint { margin-top: 18px; font-size: 15px; color: var(--ink-500); display: inline-flex; align-items: center; gap: 9px; }
+  .gallery-hint svg { width: 18px; height: 18px; color: var(--orange-600); }
+
+  /* ============ CTA BAND ============ */
+  .cta-band { padding: 92px 0; }
+  .cta-inner { position: relative; overflow: hidden; border-radius: var(--r-xl); background: linear-gradient(135deg, var(--red-600), var(--orange-600)); padding: 62px clamp(28px, 6vw, 84px); text-align: center; color: #fff; box-shadow: var(--sh-3); }
+  .cta-inner::before, .cta-inner::after { content: ""; position: absolute; border-radius: 50%; filter: blur(48px); opacity: .5; }
+  .cta-inner::before { width: 300px; height: 300px; background: rgba(255,255,255,.45); top: -130px; right: -50px; }
+  .cta-inner::after { width: 280px; height: 280px; background: rgba(183,25,16,.6); bottom: -130px; left: -60px; }
+  .cta-inner > * { position: relative; }
+  .cta-inner h2 { color: #fff; font-size: clamp(30px, 4vw, 46px); }
+  .cta-inner p { color: rgba(255,255,255,.9); font-size: 20px; margin-top: 16px; max-width: 56ch; margin-inline: auto; }
+  .cta-inner .hero-cta { justify-content: center; }
+  .cta-band .btn-light { background: #fff; color: var(--red-700); }
+  .cta-band .btn-light:hover { background: #fff; color: var(--red-700); transform: translateY(-3px); box-shadow: var(--sh-2); }
+  .cta-band .btn-outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.7); }
+  .cta-band .btn-outline:hover { background: rgba(255,255,255,.14); transform: translateY(-3px); }
+
+  /* ============ FOOTER ============ */
+  .site-footer { background: var(--paper-3); color: var(--ink-700); padding: 70px 0 34px; border-top: 4px solid var(--red-600); }
+  .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 40px; }
+  .footer-brand img { height: 56px; width: auto; }
+  .footer-brand p { margin-top: 18px; font-size: 16px; max-width: 38ch; color: var(--ink-500); line-height: 1.6; }
+  .footer-brand .ref { margin-top: 14px; font-size: 13px; color: var(--ink-300); font-family: var(--font-display); font-weight: 600; letter-spacing: .02em; }
+  .foot-col h4 { color: var(--ink-900); font-size: 14px; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+  .foot-col a { display: block; padding: 7px 0; font-size: 16.5px; color: var(--ink-700); transition: color .2s var(--ease); }
+  .foot-col a:hover { color: var(--red-600); }
+
+  .footer-logos { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 50px; padding-top: 38px; border-top: 1px solid var(--line); }
+  .org-logo { background: #fff; border: 1px solid var(--line); border-radius: var(--r-md); padding: 16px 22px; display: grid; place-items: center; }
+  .org-logo img { height: 50px; width: auto; }
+  .org-logo.eu img { height: 44px; }
+
+  .disclaimer { margin-top: 34px; font-size: 14.5px; line-height: 1.7; color: var(--ink-500); max-width: 86ch; }
+  .footer-bottom { display: flex; flex-wrap: wrap; gap: 18px; align-items: center; justify-content: space-between; margin-top: 32px; padding-top: 26px; border-top: 1px solid var(--line); }
+  .footer-bottom p { font-size: 14.5px; color: var(--ink-500); }
+  .footer-bottom .cc { display: inline-flex; align-items: center; gap: 7px; color: var(--ink-700); font-weight: 700; font-family: var(--font-display); }
+  .footer-bottom .cc svg { width: 20px; height: 20px; }
+  .socials { display: flex; gap: 12px; }
+  .socials a { width: 46px; height: 46px; border-radius: 12px; display: grid; place-items: center; background: #fff; border: 1px solid var(--line); color: var(--ink-700); transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease), border-color .2s; }
+  .socials a svg { width: 22px; height: 22px; }
+  .socials a:hover { transform: translateY(-3px); border-color: transparent; }
+  .socials a.fb:hover { background: #1877f2; color: #fff; }
+  .socials a.yt:hover { background: #ff0000; color: #fff; }
+  .socials a.ig:hover { background: linear-gradient(45deg,#f09433,#dc2743,#bc1888); color: #fff; }
+  .socials a.in:hover { background: #0a66c2; color: #fff; }
+
+  /* ============ ENTRANCE / REVEAL ============ */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .hi { opacity: 0; animation: fadeUp .7s var(--ease) both; }
+    .hi-1 { animation-delay: .05s; } .hi-2 { animation-delay: .14s; } .hi-3 { animation-delay: .24s; } .hi-4 { animation-delay: .34s; } .hi-5 { animation-delay: .44s; }
+  }
+  .anim-done .hi { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .js .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .js .reveal.in { opacity: 1; transform: none; }
+  .js .reveal[data-d="1"] { transition-delay: .08s; } .js .reveal[data-d="2"] { transition-delay: .16s; } .js .reveal[data-d="3"] { transition-delay: .24s; } .js .reveal[data-d="4"] { transition-delay: .32s; }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .hi { opacity: 1 !important; animation: none !important; }
+    .blob { animation: none !important; }
+    .btn:hover, .module:hover, .gphoto:hover img, .partner:hover, .socials a:hover, .car-btn:hover, .vfeat:hover, .vcard:hover { transform: none !important; }
+    .vplay::before { animation: none !important; }
+    .brand:hover img { animation: none !important; }
+  }
+
+  /* ============ MOBILE MENU ============ */
+  .mobile-menu { position: fixed; inset: 0 0 auto 0; z-index: 99; background: #fff; padding: 96px 26px 32px; box-shadow: var(--sh-3); border-bottom: 1px solid var(--line); transform: translateY(-100%); transition: transform .35s var(--ease); visibility: hidden; max-height: 100vh; overflow-y: auto; }
+  .mobile-menu.open { transform: translateY(0); visibility: visible; }
+  .mobile-menu nav a { display: block; font-family: var(--font-display); font-weight: 700; font-size: 22px; padding: 15px 6px; color: var(--ink-900); border-bottom: 1px solid var(--line); }
+  .mobile-menu nav a:hover { color: var(--red-600); }
+  .mm-close { position: absolute; top: 20px; right: 24px; width: 48px; height: 48px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; }
+  .mm-close svg { width: 26px; height: 26px; }
+  .mm-langs { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+  .mm-langs button { font-family: var(--font-display); font-weight: 700; padding: 11px 18px; border-radius: 100px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; font-size: 15px; min-height: 46px; }
+  .mm-langs button[aria-current="true"] { background: var(--red-600); color: #fff; border-color: var(--red-600); }
+  body.menu-open { overflow: hidden; }
+
+  /* ============ VIDEOS ============ */
+  .videos { background: var(--paper); }
+  .video-wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; margin-top: 54px; }
+  .vstories { display: grid; gap: 22px; }
+  .vfeat, .vcard { position: relative; border: none; padding: 0; border-radius: var(--r-lg); overflow: hidden; cursor: pointer; box-shadow: var(--sh-2); background: var(--ink-900); width: 100%; text-align: left; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
+  .vfeat { aspect-ratio: 16/11; }
+  .vcard { aspect-ratio: 16/9; }
+  .vfeat:hover, .vcard:hover { transform: translateY(-5px); box-shadow: var(--sh-3); }
+  .vthumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .82; transition: transform .5s var(--ease), opacity .3s var(--ease); }
+  .vfeat:hover .vthumb, .vcard:hover .vthumb { transform: scale(1.05); opacity: .68; }
+  .vscrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,23,20,.08) 0%, rgba(26,23,20,.72) 100%); }
+  .vplay { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 76px; height: 76px; border-radius: 50%; background: var(--red-600); color: #fff; display: grid; place-items: center; transition: transform .3s var(--ease), background .2s var(--ease); }
+  .vfeat .vplay { width: 92px; height: 92px; }
+  .vplay svg { width: 30px; height: 30px; margin-left: 4px; }
+  .vfeat .vplay svg { width: 36px; height: 36px; }
+  .vplay::before { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(224,36,26,.5); animation: vpulse 2.4s var(--ease) infinite; }
+  @keyframes vpulse { 0% { box-shadow: 0 0 0 0 rgba(224,36,26,.5); } 70% { box-shadow: 0 0 0 20px rgba(224,36,26,0); } 100% { box-shadow: 0 0 0 0 rgba(224,36,26,0); } }
+  .vfeat:hover .vplay, .vcard:hover .vplay { transform: translate(-50%,-50%) scale(1.08); background: var(--red-700); }
+  .vmeta { position: absolute; left: 24px; right: 24px; bottom: 22px; color: #fff; }
+  .vmeta .k { display: inline-block; font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; background: rgba(255,255,255,.22); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); padding: 5px 12px; border-radius: 100px; }
+  .vmeta h3 { color: #fff; margin-top: 11px; font-size: 22px; line-height: 1.15; }
+  .vcard .vmeta h3 { font-size: 18px; }
+
+  /* ============ VIDEO MODAL ============ */
+  .vmodal { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(15,12,10,.82); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+  .vmodal.open { display: flex; }
+  .vmodal-box { width: min(960px, 100%); background: #000; border-radius: var(--r-lg); overflow: hidden; position: relative; box-shadow: var(--sh-3); }
+  .vmodal .ratio { position: relative; aspect-ratio: 16/9; }
+  .vmodal iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .vmodal-empty { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; background: linear-gradient(140deg, var(--ink-900), #3a302820); padding: 34px; }
+  .vmodal-empty { background: linear-gradient(140deg, var(--ink-900), #332b24); }
+  .vmodal-empty svg { width: 54px; height: 54px; color: var(--orange-500); }
+  .vmodal-empty h4 { color: #fff; font-size: 24px; }
+  .vmodal-empty p { color: rgba(255,255,255,.72); font-size: 16px; max-width: 42ch; line-height: 1.55; }
+  .vmodal-close { position: absolute; top: 14px; right: 14px; z-index: 3; width: 46px; height: 46px; border-radius: 50%; border: none; background: rgba(255,255,255,.94); color: var(--ink-900); cursor: pointer; display: grid; place-items: center; }
+  .vmodal-close svg { width: 24px; height: 24px; }
+
+  /* ============ ACCESSIBILITY STATEMENT ============ */
+  .a11y { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 22px; }
+  .a11y summary { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--ink-900); cursor: pointer; display: flex; align-items: center; gap: 10px; list-style: none; }
+  .a11y summary::-webkit-details-marker { display: none; }
+  .a11y summary::before { content: ""; width: 9px; height: 9px; border-right: 2px solid var(--red-600); border-bottom: 2px solid var(--red-600); transform: rotate(-45deg); transition: transform .2s var(--ease); flex: none; }
+  .a11y[open] summary::before { transform: rotate(45deg); }
+  .a11y p { margin-top: 12px; font-size: 15px; color: var(--ink-500); line-height: 1.65; max-width: 84ch; }
+  .a11y a { color: var(--red-600); font-weight: 700; }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1080px) { .toolkit-grid { grid-template-columns: repeat(3, 1fr); } .footer-top { grid-template-columns: 1fr 1fr; gap: 36px 40px; } }
+  @media (max-width: 940px) {
+    .hero-grid, .about-grid { grid-template-columns: 1fr; gap: 48px; }
+    .hero-visual { max-width: 460px; margin: 0 auto; width: 100%; }
+    .footer-top { grid-template-columns: 1fr; gap: 36px; }
+    .nav-links, .lang { display: none; }
+    .nav-toggle { display: inline-grid; place-items: center; width: 50px; height: 50px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; }
+    .nav-toggle svg { width: 26px; height: 26px; }
+    .video-wrap { grid-template-columns: 1fr; }
+    .vstories { grid-template-columns: 1fr 1fr; }
+    .vfeat { aspect-ratio: 16/8; }
+  }
+  @media (max-width: 680px) {
+    body { font-size: 18px; }
+    .toolkit-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+    .section-pad { padding: 72px 0; }
+    .hero { padding: 116px 0 68px; }
+    .hero-cta .btn { flex: 1 1 100%; }
+    .module { padding: 22px 18px; }
+    .facts { flex-wrap: wrap; }
+    .partner { flex-direction: column; text-align: center; }
+    .gphoto { flex: 0 0 82%; }
+    .vstories { grid-template-columns: 1fr; }
+    .vfeat { aspect-ratio: 16/10; }
+    .brand img { height: 52px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 460px) { .toolkit-grid { grid-template-columns: 1fr; } .hero-meta { gap: 18px 24px; } .hero-stat .n { font-size: 28px; } }
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header" id="header">
+  <div class="wrap">
+    <nav class="nav" aria-label="Primary">
+      <a href="#top" class="brand" aria-label="Hold on, be STRONG! — home">
+        <img src="assets/logo-hold-on-be-strong.png" alt="Hold on, be STRONG!" />
+      </a>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#toolkit">The Toolkit</a>
+        <a href="#videos">Videos</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="lang" id="lang" aria-expanded="false">
+        <button class="lang-btn" id="langBtn" aria-haspopup="true" aria-expanded="false" aria-label="Select language">
+          <i data-lucide="globe"></i><span id="langLabel">EN</span><i data-lucide="chevron-down" class="chev"></i>
+        </button>
+        <div class="lang-menu" role="menu" aria-label="Language">
+          <button role="menuitemradio" aria-current="true" data-lang="EN"><span class="flag">🇬🇧</span> English</button>
+          <button role="menuitemradio" aria-current="false" data-lang="UA"><span class="flag">🇺🇦</span> Українська</button>
+          <button role="menuitemradio" aria-current="false" data-lang="FR"><span class="flag">🇫🇷</span> Français</button>
+          <button role="menuitemradio" aria-current="false" data-lang="NL"><span class="flag">🇳🇱</span> Nederlands</button>
+        </div>
+      </div>
+      <button class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu" id="navToggle"><i data-lucide="menu"></i></button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ MOBILE MENU ============ -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mm-close" id="mmClose" aria-label="Close menu"><i data-lucide="x"></i></button>
+  <nav aria-label="Mobile">
+    <a href="#about">About</a>
+    <a href="#toolkit">The Toolkit</a>
+    <a href="#videos">Videos</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="mm-langs" id="mmLangs" role="group" aria-label="Language">
+    <button data-lang="EN" aria-current="true">EN</button>
+    <button data-lang="UA" aria-current="false">UA</button>
+    <button data-lang="FR" aria-current="false">FR</button>
+    <button data-lang="NL" aria-current="false">NL</button>
+  </div>
+  <a class="btn btn-red" href="assets/Hold-On-Be-Strong-Toolkit.pdf" target="_blank" rel="noopener" style="margin-top:24px;justify-content:center;"><i data-lucide="download"></i> Download the Toolkit</a>
+</div>
+
+<main id="main">
+<span id="top"></span>
+
+<!-- ============ HERO ============ -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="blob b1" aria-hidden="true"></div>
+  <div class="blob b2" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="hero-badge hi hi-1"><img src="assets/eu-cofunded.png" alt="Co-funded by the European Union" /><span class="badge-dot" aria-hidden="true"></span> Erasmus+ · Active Ageing</span>
+        <h1 id="hero-title" class="hi hi-2">Empowering <span class="r">Active Ageing</span>, Well-Being &amp; <span class="o">Digital Inclusion</span></h1>
+        <p class="sub hi hi-3">A holistic Erasmus+ programme helping adults 60+ — including migrants and refugees — to learn, connect and thrive. Twelve weeks in Tenerife, five weeks in Belgium.</p>
+        <div class="hero-cta hi hi-4">
+          <a class="btn btn-red" href="assets/Hold-On-Be-Strong-Toolkit.pdf" target="_blank" rel="noopener"><i data-lucide="download"></i> Download the Toolkit</a>
+          <a class="btn btn-dark" href="#videos"><i data-lucide="play"></i> Watch the Video</a>
+        </div>
+        <div class="hero-meta hi hi-5">
+          <div class="hero-stat"><div class="n">12</div><div class="l">Learning modules</div></div>
+          <div class="hero-stat"><div class="n">60+</div><div class="l">Adults empowered</div></div>
+          <div class="hero-stat"><div class="n">2</div><div class="l">Partner countries</div></div>
+        </div>
+      </div>
+      <div class="hero-visual hi hi-3">
+        <span class="hero-deco d1" aria-hidden="true"></span>
+        <span class="hero-deco d2" aria-hidden="true"></span>
+        <div class="hero-photo"><img src="assets/photos/group-flag.jpg" alt="The Hold on, be STRONG! group holding the Erasmus+ flag in Tenerife" /></div>
+        <div class="hero-float-card fc1"><span class="ic"><i data-lucide="sprout"></i></span><span><span class="t">Active &amp; thriving</span><br><span class="s">Move, learn, connect</span></span></div>
+        <div class="hero-float-card fc2"><span class="ic"><i data-lucide="heart-handshake"></i></span><span><span class="t">Inclusive by design</span><br><span class="s">Migrants &amp; refugees</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section class="about section-pad" id="about" aria-labelledby="about-title">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <div class="section-head reveal">
+          <span class="eyebrow">About the project</span>
+          <h2 id="about-title">A warm, practical path to thriving later in life</h2>
+          <p>Across Europe, people are living longer — but many older adults face isolation, fewer learning opportunities and digital barriers. “Hold on, be STRONG!” brings adults 60+ together to build skills, well-being and belonging.</p>
+        </div>
+        <div class="about-points">
+          <div class="about-point ap-red reveal" data-d="1"><span class="pic"><i data-lucide="heart"></i></span><div><h4>Reducing social isolation</h4><p>Group activities, storytelling and peer learning that rebuild connection and confidence.</p></div></div>
+          <div class="about-point ap-blue reveal" data-d="2"><span class="pic"><i data-lucide="monitor-smartphone"></i></span><div><h4>Boosting digital literacy</h4><p>Friendly, step-by-step guidance — messaging, video calls, online services and everyday tools.</p></div></div>
+          <div class="about-point ap-green reveal" data-d="3"><span class="pic"><i data-lucide="activity"></i></span><div><h4>Mental &amp; physical well-being</h4><p>Mindfulness, gentle movement and relaxation designed for energy and resilience at every age.</p></div></div>
+        </div>
+      </div>
+      <div class="partners reveal" data-d="2">
+        <h3>A partnership across Europe</h3>
+        <div class="partner-list">
+          <div class="partner"><span class="logo-box"><img src="assets/tenelearning.png" alt="TeneLearning" /></span><div class="meta"><b>TeneLearning</b><span>Tenerife, Spain · Adult education</span></div></div>
+          <div class="partner"><span class="logo-box"><img src="assets/whi.png" alt="Welcome Home International" /></span><div class="meta"><b>Welcome Home International</b><span>Belgium · Inclusion &amp; community</span></div></div>
+        </div>
+        <div class="facts">
+          <div class="fact"><div class="n">12 wk</div><div class="l">Tenerife programme</div></div>
+          <div class="fact"><div class="n">5 wk</div><div class="l">Belgium course</div></div>
+          <div class="fact"><div class="n">CC BY 4.0</div><div class="l">Open toolkit</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MOMENT BAND ============ -->
+<section class="band" aria-label="A moment from the programme">
+  <div class="band-bg" style="background-image:url('assets/photos/beach.jpg')" aria-hidden="true"></div>
+  <div class="band-scrim" aria-hidden="true"></div>
+  <div class="band-inner reveal">
+    <div class="qmark" aria-hidden="true">“</div>
+    <blockquote>Learning that feels meaningful, supportive and part of everyday life.</blockquote>
+    <cite>— The holistic approach behind Hold on, be STRONG!</cite>
+  </div>
+</section>
+
+<!-- ============ TOOLKIT ============ -->
+<section class="section-pad" id="toolkit" aria-labelledby="toolkit-title">
+  <div class="wrap">
+    <div class="toolkit-top reveal">
+      <div class="section-head" style="margin:0;">
+        <span class="eyebrow">The Toolkit</span>
+        <h2 id="toolkit-title">12 modules to learn, move &amp; connect</h2>
+        <p style="max-width:52ch;">A complete, ready-to-use programme for educators, community organisations and volunteers working with older adults.</p>
+      </div>
+      <a class="btn btn-red" href="assets/Hold-On-Be-Strong-Toolkit.pdf" target="_blank" rel="noopener"><i data-lucide="file-down"></i> Download full toolkit (PDF)</a>
+    </div>
+    <div class="toolkit-grid" id="toolkitGrid"></div>
+  </div>
+</section>
+
+<!-- ============ VIDEOS ============ -->
+<section class="videos section-pad" id="videos" aria-labelledby="videos-title">
+  <div class="wrap">
+    <div class="section-head center reveal">
+      <span class="eyebrow center">Videos &amp; stories</span>
+      <h2 id="videos-title">Watch the project come to life</h2>
+      <p>Our promo film and short success stories from the people behind Hold on, be STRONG!</p>
+    </div>
+    <div class="video-wrap" id="videoWrap"></div>
+  </div>
+</section>
+
+<!-- ============ GALLERY CAROUSEL ============ -->
+<section class="gallery section-pad" id="gallery" aria-labelledby="gallery-title">
+  <div class="wrap">
+    <div class="gallery-head reveal">
+      <div class="section-head" style="margin:0;">
+        <span class="eyebrow">Moments from the programme</span>
+        <h2 id="gallery-title">Real workshops, real connection</h2>
+        <p style="max-width:50ch;">Glimpses of participants learning, moving and growing together in Tenerife and beyond.</p>
+      </div>
+      <div class="car-nav">
+        <button class="car-btn" id="carPrev" aria-label="Previous photos"><i data-lucide="arrow-left"></i></button>
+        <button class="car-btn" id="carNext" aria-label="Next photos"><i data-lucide="arrow-right"></i></button>
+      </div>
+    </div>
+    <div class="gallery-track" id="galleryTrack" tabindex="0" aria-label="Photo gallery — scroll or use arrow keys"></div>
+    <div class="gallery-hint"><i data-lucide="move-horizontal"></i> Swipe, drag or use the arrows — more photos can be added any time.</div>
+  </div>
+</section>
+
+<!-- ============ CTA BAND ============ -->
+<section class="cta-band" id="contact" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <h2 id="cta-title">Bring the programme to your community</h2>
+      <p>Download the open toolkit, share it with educators and volunteers, or get in touch to learn more about Hold on, be STRONG!</p>
+      <div class="hero-cta">
+        <a class="btn btn-light" href="assets/Hold-On-Be-Strong-Toolkit.pdf" target="_blank" rel="noopener"><i data-lucide="download"></i> Download the Toolkit</a>
+        <a class="btn btn-outline" href="mailto:info@tenelearning.com"><i data-lucide="mail"></i> Contact the Team</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ============ VIDEO MODAL ============ -->
+<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Video player">
+  <div class="vmodal-box">
+    <button class="vmodal-close" id="vmodalClose" aria-label="Close video"><i data-lucide="x"></i></button>
+    <div class="ratio" id="vmodalBody"></div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="assets/logo-hold-on-be-strong.png" alt="Hold on, be STRONG!" />
+        <p>Empowering active ageing, well-being and digital inclusion for adults 60+ across Europe.</p>
+        <p class="ref">Erasmus+ · 2025-1-ES01-KA210-ADU-000353675</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <a href="#about">About the project</a>
+        <a href="#toolkit">The Toolkit</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#contact">Contact us</a>
+      </div>
+      <div class="foot-col">
+        <h4>Resources</h4>
+        <a href="assets/Hold-On-Be-Strong-Toolkit.pdf" target="_blank" rel="noopener">Download toolkit (PDF)</a>
+        <a href="#about">Partners</a>
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0 licence</a>
+        <a href="#a11y-statement">Accessibility</a>
+      </div>
+      <div class="foot-col">
+        <h4>Project coordinator</h4>
+        <p style="font-family:var(--font-display);font-weight:700;color:var(--ink-900);font-size:17px;">TeneLearning, S.L.</p>
+        <p style="font-size:15px;color:var(--ink-500);margin:3px 0 12px;">Tenerife, Spain</p>
+        <a href="https://www.tenelearning.com" target="_blank" rel="noopener">www.tenelearning.com</a>
+        <a href="mailto:info@tenelearning.com">info@tenelearning.com</a>
+      </div>
+    </div>
+
+    <div class="footer-logos">
+      <div class="org-logo eu"><img src="assets/eu-cofunded.png" alt="Co-funded by the European Union" /></div>
+      <div class="org-logo"><img src="assets/tenelearning.png" alt="TeneLearning" /></div>
+      <div class="org-logo"><img src="assets/whi.png" alt="Welcome Home International" /></div>
+    </div>
+
+    <p class="disclaimer">Funded by the European Union. Views and opinions expressed are however those of the author(s) only and do not necessarily reflect those of the European Union or the European Education and Culture Executive Agency (EACEA). Neither the European Union nor EACEA can be held responsible for them.</p>
+
+    <details class="a11y" id="a11y-statement">
+      <summary>Accessibility statement</summary>
+      <p>We are committed to making this website accessible to everyone, in line with the Web Content Accessibility Guidelines (WCAG) 2.1 level AA and the European standard EN&nbsp;301&nbsp;549. The site uses large, legible typography, strong colour contrast, fully keyboard-operable navigation, descriptive alternative text for images, clear focus indicators and support for the “reduce motion” system preference. If you encounter any barrier or need information in another format, please contact us at <a href="mailto:info@tenelearning.com">info@tenelearning.com</a> and we will do our best to help.</p>
+    </details>
+
+    <div class="footer-bottom">
+      <p>© 2026 Hold on, be STRONG! — Shared in good faith for educators and communities.</p>
+      <span class="cc"><i data-lucide="creative-commons"></i> Licensed under CC BY 4.0</span>
+      <div class="socials">
+        <a href="#" class="fb" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12.06C22 6.5 17.52 2 12 2S2 6.5 2 12.06c0 5.02 3.66 9.18 8.44 9.94v-7.03H7.9v-2.9h2.54V9.85c0-2.52 1.49-3.91 3.78-3.91 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.78-1.63 1.57v1.89h2.78l-.44 2.9h-2.34V22c4.78-.76 8.44-4.92 8.44-9.94Z"/></svg></a>
+        <a href="#" class="yt" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.5a3.02 3.02 0 0 0-2.12-2.14C19.5 3.85 12 3.85 12 3.85s-7.5 0-9.38.51A3.02 3.02 0 0 0 .5 6.5C0 8.4 0 12 0 12s0 3.6.5 5.5a3.02 3.02 0 0 0 2.12 2.14C4.5 20.15 12 20.15 12 20.15s7.5 0 9.38-.51a3.02 3.02 0 0 0 2.12-2.14C24 15.6 24 12 24 12s0-3.6-.5-5.5ZM9.6 15.5v-7l6.2 3.5-6.2 3.5Z"/></svg></a>
+        <a href="#" class="ig" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none"/></svg></a>
+        <a href="#" class="in" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.55V9h3.57v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  /* ---- Toolkit modules (from the official toolkit) ---- */
+  const MODULES = [
+    { n:1,  t:'Mindfulness',                 d:'Stay present and calm; manage distracting thoughts and reduce everyday stress.', ic:'brain',           cat:'orange', tag:'Well-being' },
+    { n:2,  t:'Meditation',                  d:'Simple guided practice to quiet the mind, breathe and restore focus.',           ic:'wind',            cat:'orange', tag:'Well-being' },
+    { n:3,  t:'Pilates',                     d:'Gentle, low-impact movement for strength, balance and mobility.',                ic:'person-standing', cat:'green',  tag:'Movement' },
+    { n:4,  t:'Art Therapy',                 d:'Creative expression and storytelling that support emotional health.',            ic:'palette',         cat:'red',    tag:'Creativity' },
+    { n:5,  t:'Financial Literacy',          d:'Practical, confident money skills for everyday independence.',                   ic:'piggy-bank',      cat:'blue',   tag:'Life skills' },
+    { n:6,  t:'Digital Skills',              d:'Gmail, video calls and ChatGPT for daily life — stay connected with ease.',      ic:'laptop',          cat:'blue',   tag:'Digital' },
+    { n:7,  t:'Team Building',               d:'Shared activities that build trust, friendship and a sense of belonging.',       ic:'users',           cat:'red',    tag:'Social' },
+    { n:8,  t:'Goal Setting & Life Scan',    d:'Reflect, set meaningful goals and take small, achievable steps forward.',        ic:'target',          cat:'red',    tag:'Motivation' },
+    { n:9,  t:'Ikigai',                      d:'Rediscover purpose and a renewed reason to rise each morning.',                  ic:'compass',         cat:'red',    tag:'Motivation' },
+    { n:10, t:'Stress Management',           d:'Fundamentals and techniques to ease tension and respond calmly.',               ic:'waves',           cat:'orange', tag:'Well-being' },
+    { n:11, t:'Physical Relaxation',         d:'Restorative techniques to release the body and rest deeply.',                   ic:'flower-2',        cat:'green',  tag:'Movement' },
+    { n:12, t:'Time Management',             d:'Beat procrastination and structure the day around what matters.',               ic:'clock',           cat:'blue',   tag:'Life skills' },
+  ];
+  document.getElementById('toolkitGrid').innerHTML = MODULES.map((m,i)=>`
+    <article class="module cat-${m.cat} reveal" data-d="${(i%4)+1}">
+      <span class="num">${String(m.n).padStart(2,'0')}</span>
+      <span class="m-ic"><i data-lucide="${m.ic}"></i></span>
+      <h3>${m.t}</h3><p>${m.d}</p>
+      <span class="tag"><i data-lucide="circle" style="width:8px;height:8px;fill:currentColor;"></i> ${m.tag}</span>
+    </article>`).join('');
+
+  /* ---- Gallery photos (add more here any time) ---- */
+  const PHOTOS = [
+    { src:'assets/photos/group-flag.jpg', loc:'Tenerife, Spain',       cap:'Our group with the Erasmus+ flag' },
+    { src:'assets/photos/workshop.jpg',   loc:'Tenerife, Spain',       cap:'Digital skills & well-being workshop' },
+    { src:'assets/photos/garden.jpg',     loc:'Tenerife, Spain',       cap:'Mindful walk at the botanical garden' },
+    { src:'assets/photos/beach.jpg',      loc:'Puerto de la Cruz',     cap:'Gentle movement & energy by the sea' },
+  ];
+  const track = document.getElementById('galleryTrack');
+  track.innerHTML = PHOTOS.map(p=>`
+    <figure class="gphoto">
+      <img src="${p.src}" alt="${p.cap}, ${p.loc}" loading="lazy" />
+      <figcaption class="cap"><span class="loc"><i data-lucide="map-pin"></i> ${p.loc}</span><p>${p.cap}</p></figcaption>
+    </figure>`).join('');
+
+  /* ---- Videos: promo + success stories (add real links in `url`) ---- */
+  const VIDEOS = [
+    { feat:true, k:'Promo film',    title:'Hold on, be STRONG! — Project promo', poster:'assets/photos/workshop.jpg',  url:'' },
+    { k:'Success story', title:'A group that grew together',        poster:'assets/photos/group-flag.jpg', url:'' },
+    { k:'Success story', title:'Mindfulness & movement in nature',  poster:'assets/photos/garden.jpg',     url:'' },
+  ];
+  const videoWrap = document.getElementById('videoWrap');
+  const vCardHtml = (v, feat) => `
+    <button class="${feat ? 'vfeat' : 'vcard'}" data-url="${v.url}" data-title="${v.title}" aria-label="Play: ${v.title}">
+      <img class="vthumb" src="${v.poster}" alt="" loading="lazy" />
+      <span class="vscrim"></span>
+      <span class="vplay"><i data-lucide="play"></i></span>
+      <span class="vmeta"><span class="k">${v.k}</span><h3>${v.title}</h3></span>
+    </button>`;
+  const featV = VIDEOS.find(v => v.feat);
+  const restV = VIDEOS.filter(v => !v.feat);
+  videoWrap.innerHTML = vCardHtml(featV, true) + `<div class="vstories">${restV.map(v => vCardHtml(v, false)).join('')}</div>`;
+
+  if (window.lucide) lucide.createIcons();
+
+  /* ---- Video modal (accessible dialog) ---- */
+  const vmodal = document.getElementById('vmodal');
+  const vbody = document.getElementById('vmodalBody');
+  const vclose = document.getElementById('vmodalClose');
+  let vLastFocus = null;
+  function openVideo(url, title) {
+    vLastFocus = document.activeElement;
+    if (url) {
+      const sep = url.includes('?') ? '&' : '?';
+      vbody.innerHTML = `<iframe src="${url}${sep}autoplay=1" title="${title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      vbody.innerHTML = `<div class="vmodal-empty"><i data-lucide="clapperboard"></i><h4>Coming soon</h4><p>“${title}” will be published here shortly — please check back soon.</p></div>`;
+      if (window.lucide) lucide.createIcons();
+    }
+    vmodal.classList.add('open');
+    document.body.classList.add('menu-open');
+    vclose.focus();
+  }
+  function closeVideo() {
+    vmodal.classList.remove('open');
+    vbody.innerHTML = '';
+    document.body.classList.remove('menu-open');
+    if (vLastFocus) vLastFocus.focus();
+  }
+  videoWrap.addEventListener('click', (e) => { const b = e.target.closest('[data-url]'); if (b) openVideo(b.dataset.url, b.dataset.title); });
+  vclose.addEventListener('click', closeVideo);
+  vmodal.addEventListener('click', (e) => { if (e.target === vmodal) closeVideo(); });
+
+  /* ---- Carousel controls ---- */
+  const carPrev = document.getElementById('carPrev');
+  const carNext = document.getElementById('carNext');
+  const step = () => { const card = track.querySelector('.gphoto'); return card ? card.offsetWidth + 22 : 320; };
+  const updateCar = () => {
+    const max = track.scrollWidth - track.clientWidth - 2;
+    carPrev.disabled = track.scrollLeft <= 2;
+    carNext.disabled = track.scrollLeft >= max;
+  };
+  carPrev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+  carNext.addEventListener('click', () => track.scrollBy({ left:  step(), behavior: 'smooth' }));
+  track.addEventListener('scroll', () => requestAnimationFrame(updateCar), { passive: true });
+  window.addEventListener('resize', updateCar);
+  updateCar();
+
+  /* ---- Header scroll state ---- */
+  const header = document.getElementById('header');
+  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 12);
+  onScroll(); window.addEventListener('scroll', onScroll, { passive: true });
+
+  /* ---- Language dropdown ---- */
+  const lang = document.getElementById('lang'), langBtn = document.getElementById('langBtn'), langLabel = document.getElementById('langLabel');
+  const toggleLang = (open) => { const next = open ?? lang.getAttribute('aria-expanded') !== 'true'; lang.setAttribute('aria-expanded', next); langBtn.setAttribute('aria-expanded', next); };
+  langBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleLang(); });
+  lang.querySelectorAll('.lang-menu button').forEach(b => b.addEventListener('click', () => { setLang(b.dataset.lang); toggleLang(false); }));
+  document.addEventListener('click', (e) => { if (!lang.contains(e.target)) toggleLang(false); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    toggleLang(false);
+    if (vmodal.classList.contains('open')) closeVideo();
+    if (mobileMenu.classList.contains('open')) closeMenu();
+  });
+
+  /* ---- Mobile menu (accessible) ---- */
+  const navToggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mmClose = document.getElementById('mmClose');
+  function openMenu() { mobileMenu.classList.add('open'); navToggle.setAttribute('aria-expanded', 'true'); document.body.classList.add('menu-open'); mobileMenu.querySelector('a')?.focus(); }
+  function closeMenu() { mobileMenu.classList.remove('open'); navToggle.setAttribute('aria-expanded', 'false'); document.body.classList.remove('menu-open'); }
+  navToggle.addEventListener('click', () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu());
+  mmClose.addEventListener('click', closeMenu);
+  mobileMenu.querySelectorAll('nav a').forEach(a => a.addEventListener('click', closeMenu));
+  const setLang = (code) => {
+    langLabel.textContent = code;
+    lang.querySelectorAll('.lang-menu button').forEach(x => x.setAttribute('aria-current', String(x.dataset.lang === code)));
+    document.querySelectorAll('#mmLangs button').forEach(x => x.setAttribute('aria-current', String(x.dataset.lang === code)));
+  };
+  document.querySelectorAll('#mmLangs button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
+  window.addEventListener('resize', () => { if (window.innerWidth > 940 && mobileMenu.classList.contains('open')) closeMenu(); });
+
+  /* ---- Reveal on scroll ---- */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reveals = document.querySelectorAll('.reveal');
+  if (reduce || !('IntersectionObserver' in window)) {
+    reveals.forEach(el => el.classList.add('in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(el => io.observe(el));
+  }
+
+  /* ---- Settle safety: snap entrance animations to final state after load ---- */
+  const settle = () => document.documentElement.classList.add('anim-done');
+  if (document.readyState === 'complete') setTimeout(settle, 1500);
+  else window.addEventListener('load', () => setTimeout(settle, 1500));
+</script>
+</body>
+</html>
