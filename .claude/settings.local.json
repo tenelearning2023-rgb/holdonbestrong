@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import pypdf; print\\('pypdf ok'\\)\")",
+      "Bash(python -c \"import fitz; print\\('pymupdf ok'\\)\")",
+      "Bash(python -c \"import pdfplumber; print\\('pdfplumber ok'\\)\")",
+      "Bash(where pdftotext *)",
+      "Bash(pdftotext -layout \"uploads/Toolkit.pdf\" \"uploads/toolkit.txt\")",
+      "Bash(python -c ' *)",
+      "Bash(node --check _check.js)",
+      "Bash(cd \"C:\\\\Users\\\\tenel\\\\OneDrive\\\\Desktop\\\\Tenelearning\\\\Hold on, be STRONG!\" && ls -la *.html && which node 2>&1; ls \"/c/Program Files/nodejs/node.exe\" 2>&1)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
