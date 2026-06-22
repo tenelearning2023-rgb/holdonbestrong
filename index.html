@@ -307,9 +307,11 @@
     .js .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
     .hi { opacity: 1 !important; animation: none !important; }
     .blob { animation: none !important; }
-    .btn:hover, .module:hover, .gphoto:hover img, .partner:hover, .socials a:hover, .car-btn:hover, .vfeat:hover, .vcard:hover { transform: none !important; }
-    .vplay::before { animation: none !important; }
+    .btn:hover, .module:hover, .gphoto:hover img, .partner:hover, .socials a:hover, .car-btn:hover { transform: none !important; }
     .brand:hover img { animation: none !important; }
+    .lightbox, .lb-img { transition: none !important; }
+    .lb-img.swap { opacity: 1 !important; transform: none !important; }
+    .gphoto::after { transition: none !important; }
   }
 
   /* ============ MOBILE MENU ============ */
@@ -326,40 +328,49 @@
 
   /* ============ VIDEOS ============ */
   .videos { background: var(--paper); }
-  .video-wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 22px; margin-top: 54px; }
-  .vstories { display: grid; gap: 22px; }
-  .vfeat, .vcard { position: relative; border: none; padding: 0; border-radius: var(--r-lg); overflow: hidden; cursor: pointer; box-shadow: var(--sh-2); background: var(--ink-900); width: 100%; text-align: left; transition: transform .3s var(--ease), box-shadow .3s var(--ease); }
-  .vfeat { aspect-ratio: 16/11; }
-  .vcard { aspect-ratio: 16/9; }
-  .vfeat:hover, .vcard:hover { transform: translateY(-5px); box-shadow: var(--sh-3); }
-  .vthumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .82; transition: transform .5s var(--ease), opacity .3s var(--ease); }
-  .vfeat:hover .vthumb, .vcard:hover .vthumb { transform: scale(1.05); opacity: .68; }
-  .vscrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,23,20,.08) 0%, rgba(26,23,20,.72) 100%); }
-  .vplay { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 76px; height: 76px; border-radius: 50%; background: var(--red-600); color: #fff; display: grid; place-items: center; transition: transform .3s var(--ease), background .2s var(--ease); }
-  .vfeat .vplay { width: 92px; height: 92px; }
-  .vplay svg { width: 30px; height: 30px; margin-left: 4px; }
-  .vfeat .vplay svg { width: 36px; height: 36px; }
-  .vplay::before { content: ""; position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 0 rgba(224,36,26,.5); animation: vpulse 2.4s var(--ease) infinite; }
-  @keyframes vpulse { 0% { box-shadow: 0 0 0 0 rgba(224,36,26,.5); } 70% { box-shadow: 0 0 0 20px rgba(224,36,26,0); } 100% { box-shadow: 0 0 0 0 rgba(224,36,26,0); } }
-  .vfeat:hover .vplay, .vcard:hover .vplay { transform: translate(-50%,-50%) scale(1.08); background: var(--red-700); }
-  .vmeta { position: absolute; left: 24px; right: 24px; bottom: 22px; color: #fff; }
-  .vmeta .k { display: inline-block; font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; background: rgba(255,255,255,.22); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); padding: 5px 12px; border-radius: 100px; }
-  .vmeta h3 { color: #fff; margin-top: 11px; font-size: 22px; line-height: 1.15; }
-  .vcard .vmeta h3 { font-size: 18px; }
+  .video-wrap { display: flex; flex-direction: column; gap: 38px; margin-top: 54px; }
 
-  /* ============ VIDEO MODAL ============ */
-  .vmodal { position: fixed; inset: 0; z-index: 200; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(15,12,10,.82); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-  .vmodal.open { display: flex; }
-  .vmodal-box { width: min(960px, 100%); background: #000; border-radius: var(--r-lg); overflow: hidden; position: relative; box-shadow: var(--sh-3); }
-  .vmodal .ratio { position: relative; aspect-ratio: 16/9; }
-  .vmodal iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  .vmodal-empty { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; background: linear-gradient(140deg, var(--ink-900), #3a302820); padding: 34px; }
-  .vmodal-empty { background: linear-gradient(140deg, var(--ink-900), #332b24); }
-  .vmodal-empty svg { width: 54px; height: 54px; color: var(--orange-500); }
-  .vmodal-empty h4 { color: #fff; font-size: 24px; }
-  .vmodal-empty p { color: rgba(255,255,255,.72); font-size: 16px; max-width: 42ch; line-height: 1.55; }
-  .vmodal-close { position: absolute; top: 14px; right: 14px; z-index: 3; width: 46px; height: 46px; border-radius: 50%; border: none; background: rgba(255,255,255,.94); color: var(--ink-900); cursor: pointer; display: grid; place-items: center; }
-  .vmodal-close svg { width: 24px; height: 24px; }
+  /* Clean aspect-ratio embeds — iframes scale perfectly, no black bars */
+  .vembed { position: relative; width: 100%; border-radius: var(--r-lg); overflow: hidden; background: var(--ink-900); box-shadow: var(--sh-2); }
+  .vembed--wide { aspect-ratio: 16 / 9; }
+  .vembed--tall { aspect-ratio: 9 / 16; }
+  .vembed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+
+  .vfeature { width: 100%; max-width: 940px; margin-inline: auto; }
+  .vstories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+  .vstory { min-width: 0; }
+
+  .vcap { display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 16px; text-align: center; }
+  .vstory .vcap { margin-top: 13px; gap: 0; }
+  .vcap .vk { font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--red-600); background: var(--red-100); padding: 6px 14px; border-radius: 100px; }
+  .vstory .vcap .vk { font-size: 11px; padding: 5px 12px; }
+  .vcap .vt { font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--ink-900); line-height: 1.18; }
+
+  /* ============ GALLERY LIGHTBOX ============ */
+  .gphoto { cursor: pointer; }
+  .gphoto::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 0 var(--orange-500); transition: box-shadow .25s var(--ease); pointer-events: none; }
+  .gphoto:hover::after { box-shadow: inset 0 0 0 3px var(--orange-500); }
+
+  .lightbox { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; padding: clamp(56px, 9vh, 92px) clamp(14px, 5vw, 40px); background: rgba(15,12,10,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility .35s var(--ease); }
+  .lightbox.open { opacity: 1; visibility: visible; }
+  .lb-content { display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 100%; max-height: 100%; margin: 0; }
+  .lb-img { max-width: min(1100px, 100%); max-height: 74vh; width: auto; height: auto; border-radius: var(--r-lg); box-shadow: var(--sh-3); object-fit: contain; background: var(--ink-900); transition: opacity .3s var(--ease), transform .35s var(--ease); }
+  .lb-img.swap { opacity: 0; transform: scale(.97); }
+  .lb-caption { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; color: #fff; max-width: 62ch; }
+  .lb-title { font-family: var(--font-display); font-weight: 800; font-size: clamp(19px, 2.4vw, 25px); line-height: 1.22; }
+  .lb-loc { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-display); font-weight: 700; font-size: 13px; letter-spacing: .05em; text-transform: uppercase; color: var(--orange-500); }
+  .lb-loc svg { width: 16px; height: 16px; }
+  .lb-count { font-size: 14px; color: rgba(255,255,255,.6); font-variant-numeric: tabular-nums; letter-spacing: .05em; }
+
+  .lb-close, .lb-arrow { position: fixed; z-index: 2; border: none; cursor: pointer; display: grid; place-items: center; color: var(--ink-900); background: rgba(255,255,255,.92); border-radius: 50%; transition: background .2s var(--ease), color .2s var(--ease), transform .2s var(--ease); }
+  .lb-close { top: clamp(14px, 3vw, 26px); right: clamp(14px, 3vw, 26px); width: 50px; height: 50px; }
+  .lb-arrow { top: 50%; transform: translateY(-50%); width: 56px; height: 56px; }
+  .lb-prev { left: clamp(10px, 3vw, 30px); }
+  .lb-next { right: clamp(10px, 3vw, 30px); }
+  .lb-close svg { width: 26px; height: 26px; }
+  .lb-arrow svg { width: 28px; height: 28px; }
+  .lb-close:hover { background: var(--red-600); color: #fff; transform: scale(1.08); }
+  .lb-arrow:hover { background: var(--red-600); color: #fff; transform: translateY(-50%) scale(1.08); }
 
   /* ============ ACCESSIBILITY STATEMENT ============ */
   .a11y { margin-top: 26px; border-top: 1px solid var(--line); padding-top: 22px; }
@@ -439,9 +450,7 @@
     .nav-links, .lang { display: none; }
     .nav-toggle { display: inline-grid; place-items: center; width: 50px; height: 50px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; }
     .nav-toggle svg { width: 26px; height: 26px; }
-    .video-wrap { grid-template-columns: 1fr; }
-    .vstories { grid-template-columns: 1fr 1fr; }
-    .vfeat { aspect-ratio: 16/8; }
+    .vstories { grid-template-columns: repeat(2, 1fr); gap: 18px; }
   }
   @media (max-width: 680px) {
     body { font-size: 18px; }
@@ -453,10 +462,14 @@
     .facts { flex-wrap: wrap; }
     .partner { flex-direction: column; text-align: center; }
     .gphoto { flex: 0 0 82%; }
-    .vstories { grid-template-columns: 1fr; }
-    .vfeat { aspect-ratio: 16/10; }
+    .vcap .vt { font-size: 20px; }
     .brand img { height: 52px; }
     .footer-bottom { flex-direction: column; align-items: flex-start; }
+    .lb-close, .lb-arrow { width: 44px; height: 44px; }
+    .lb-close svg, .lb-arrow svg { width: 24px; height: 24px; }
+    .lb-prev { left: 8px; } .lb-next { right: 8px; }
+    .lb-img { max-height: 64vh; }
+    .lb-content { gap: 15px; }
   }
   @media (max-width: 460px) { .toolkit-grid { grid-template-columns: 1fr; } .hero-meta { gap: 18px 24px; } .hero-stat .n { font-size: 28px; } }
 </style>
@@ -611,7 +624,7 @@
     <div class="section-head center reveal">
       <span class="eyebrow center" data-i18n="videos_eyebrow">Videos &amp; stories</span>
       <h2 id="videos-title" data-i18n="videos_title">Watch the project come to life</h2>
-      <p data-i18n="videos_p">Our promo film and short success stories from the people behind Hold on, be STRONG!</p>
+      <p data-i18n="videos_p">A guided relaxation exercise and short success stories from the people behind Hold on, be STRONG!</p>
     </div>
     <div class="video-wrap" id="videoWrap"></div>
   </div>
@@ -651,12 +664,19 @@
 </section>
 </main>
 
-<!-- ============ VIDEO MODAL ============ -->
-<div class="vmodal" id="vmodal" role="dialog" aria-modal="true" aria-label="Video player">
-  <div class="vmodal-box">
-    <button class="vmodal-close" id="vmodalClose" aria-label="Close video"><i data-lucide="x"></i></button>
-    <div class="ratio" id="vmodalBody"></div>
-  </div>
+<!-- ============ GALLERY LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer" aria-hidden="true">
+  <button class="lb-close" id="lbClose" type="button" aria-label="Close (Esc)"><i data-lucide="x"></i></button>
+  <button class="lb-arrow lb-prev" id="lbPrev" type="button" aria-label="Previous photo"><i data-lucide="chevron-left"></i></button>
+  <button class="lb-arrow lb-next" id="lbNext" type="button" aria-label="Next photo"><i data-lucide="chevron-right"></i></button>
+  <figure class="lb-content">
+    <img class="lb-img" id="lbImg" src="" alt="" />
+    <figcaption class="lb-caption" aria-live="polite">
+      <span class="lb-title" id="lbTitle"></span>
+      <span class="lb-loc" id="lbLoc"></span>
+      <span class="lb-count" id="lbCount"></span>
+    </figcaption>
+  </figure>
 </div>
 
 <!-- ============ MODULE MODAL ============ -->
@@ -1297,7 +1317,7 @@
       fact1n:'12 тиж', fact1l:'Програма на Тенерифе', fact2n:'5 тиж', fact2l:'Курс у Бельгії', fact3l:'Відкритий посібник',
       band_quote:'Навчання, що відчувається значущим, підтримувальним і частиною щоденного життя.', band_cite:'— Цілісний підхід проєкту Hold on, be STRONG!',
       toolkit_eyebrow:'Інструментарій', toolkit_title:'12 модулів, щоб навчатися, рухатися й спілкуватися', toolkit_p:'Повна, готова до використання програма для освітян, громадських організацій і волонтерів, які працюють із літніми людьми.',
-      videos_eyebrow:'Відео та історії', videos_title:'Подивіться, як проєкт оживає', videos_p:'Наш промо-фільм і короткі історії успіху від людей, які створюють Hold on, be STRONG!',
+      videos_eyebrow:'Відео та історії', videos_title:'Подивіться, як проєкт оживає', videos_p:'Вправа з керованої релаксації та короткі історії успіху від людей, які створюють Hold on, be STRONG!',
       gallery_eyebrow:'Моменти з програми', gallery_title:'Справжні воркшопи, справжній зв’язок', gallery_p:'Миттєвості того, як учасники навчаються, рухаються й зростають разом на Тенерифе та поза ним.',
       gallery_hint:'Гортайте, тягніть або користуйтесь стрілками — фото можна додавати будь-коли.',
       cta_title:'Принесіть програму у свою спільноту', cta_p:'Завантажте відкритий посібник, поділіться ним з освітянами й волонтерами або зв’яжіться з нами, щоб дізнатися більше про Hold on, be STRONG!',
@@ -1308,7 +1328,7 @@
       a11y_summary:'Заява про доступність',
       a11y_p:'Ми прагнемо зробити цей вебсайт доступним для кожного, відповідно до Настанов щодо доступності вебвмісту (WCAG) 2.1 рівня AA та європейського стандарту EN&nbsp;301&nbsp;549. Сайт використовує великий розбірливий шрифт, високий контраст кольорів, повністю клавіатурну навігацію, описові альтернативні тексти для зображень, чіткі індикатори фокуса й підтримку системного налаштування «зменшити рух». Якщо ви натрапили на перешкоду чи потребуєте інформацію в іншому форматі, напишіть нам на <a href="mailto:info@tenelearning.com">info@tenelearning.com</a>, і ми зробимо все можливе, щоб допомогти.',
       footer_copyright:'© 2026 Hold on, be STRONG! — Поширюється з добрими намірами для освітян і спільнот.', footer_cc:'Ліцензовано за CC BY 4.0',
-      vid_promo_k:'Промо-фільм', vid_story_k:'Історія успіху', vid1_t:'Hold on, be STRONG! — Промо проєкту', vid2_t:'Група, що зростала разом', vid3_t:'Усвідомленість і рух на природі',
+      vid_promo_k:'Промо-фільм', vid_pmr_k:'Керована релаксація', vid_story_k:'Історія успіху', vid1_t:'Прогресивна м’язова релаксація (PMR)', vid2_t:'Група, що зростала разом', vid3_t:'Усвідомленість і рух на природі',
       vid_soon_h:'Незабаром', vid_soon_p:'«{title}» скоро з’явиться тут — завітайте трохи згодом.',
       loc_tenerife:'Тенерифе, Іспанія', loc_puerto:'Пуерто-де-ла-Крус', cap_1:'Наша група з прапором Erasmus+', cap_2:'Воркшоп із цифрових навичок і добробуту', cap_3:'Усвідомлена прогулянка ботанічним садом', cap_4:'М’який рух і енергія біля моря'
     },
@@ -1329,7 +1349,7 @@
       fact1n:'12 sem', fact1l:'Programme à Tenerife', fact2n:'5 sem', fact2l:'Cours en Belgique', fact3l:'Boîte à outils ouverte',
       band_quote:'Un apprentissage qui a du sens, bienveillant et intégré au quotidien.', band_cite:'— L’approche holistique de Hold on, be STRONG !',
       toolkit_eyebrow:'La boîte à outils', toolkit_title:'12 modules pour apprendre, bouger et créer du lien', toolkit_p:'Un programme complet et prêt à l’emploi pour les éducateurs, les organisations communautaires et les bénévoles auprès des personnes âgées.',
-      videos_eyebrow:'Vidéos et témoignages', videos_title:'Voyez le projet prendre vie', videos_p:'Notre film promotionnel et de courts témoignages des personnes derrière Hold on, be STRONG !',
+      videos_eyebrow:'Vidéos et témoignages', videos_title:'Voyez le projet prendre vie', videos_p:'Un exercice de relaxation guidée et de courts témoignages des personnes derrière Hold on, be STRONG !',
       gallery_eyebrow:'Moments du programme', gallery_title:'De vrais ateliers, de vrais liens', gallery_p:'Aperçus de participants qui apprennent, bougent et grandissent ensemble à Tenerife et au-delà.',
       gallery_hint:'Balayez, glissez ou utilisez les flèches — d’autres photos peuvent être ajoutées à tout moment.',
       cta_title:'Apportez le programme à votre communauté', cta_p:'Téléchargez la boîte à outils ouverte, partagez-la avec des éducateurs et des bénévoles, ou contactez-nous pour en savoir plus sur Hold on, be STRONG !',
@@ -1340,7 +1360,7 @@
       a11y_summary:'Déclaration d’accessibilité',
       a11y_p:'Nous nous engageons à rendre ce site accessible à tous, conformément aux Règles pour l’accessibilité des contenus Web (WCAG) 2.1 niveau AA et à la norme européenne EN&nbsp;301&nbsp;549. Le site utilise une typographie grande et lisible, un fort contraste des couleurs, une navigation entièrement au clavier, des textes alternatifs descriptifs pour les images, des indicateurs de focus clairs et la prise en charge de la préférence système « réduire les animations ». Si vous rencontrez un obstacle ou avez besoin d’informations dans un autre format, contactez-nous à <a href="mailto:info@tenelearning.com">info@tenelearning.com</a> et nous ferons de notre mieux pour vous aider.',
       footer_copyright:'© 2026 Hold on, be STRONG ! — Partagé de bonne foi pour les éducateurs et les communautés.', footer_cc:'Sous licence CC BY 4.0',
-      vid_promo_k:'Film promo', vid_story_k:'Témoignage', vid1_t:'Hold on, be STRONG ! — Promo du projet', vid2_t:'Un groupe qui a grandi ensemble', vid3_t:'Pleine conscience et mouvement dans la nature',
+      vid_promo_k:'Film promo', vid_pmr_k:'Relaxation guidée', vid_story_k:'Témoignage', vid1_t:'Relaxation musculaire progressive (PMR)', vid2_t:'Un groupe qui a grandi ensemble', vid3_t:'Pleine conscience et mouvement dans la nature',
       vid_soon_h:'Bientôt disponible', vid_soon_p:'« {title} » sera bientôt publié ici — revenez bientôt.',
       loc_tenerife:'Tenerife, Espagne', loc_puerto:'Puerto de la Cruz', cap_1:'Notre groupe avec le drapeau Erasmus+', cap_2:'Atelier compétences numériques et bien-être', cap_3:'Marche en pleine conscience au jardin botanique', cap_4:'Mouvement doux et énergie au bord de la mer'
     },
@@ -1361,7 +1381,7 @@
       fact1n:'12 wk', fact1l:'Programma op Tenerife', fact2n:'5 wk', fact2l:'Cursus in België', fact3l:'Open toolkit',
       band_quote:'Leren dat zinvol en ondersteunend aanvoelt en deel uitmaakt van het dagelijks leven.', band_cite:'— De holistische aanpak achter Hold on, be STRONG!',
       toolkit_eyebrow:'De toolkit', toolkit_title:'12 modules om te leren, bewegen en verbinden', toolkit_p:'Een compleet, kant-en-klaar programma voor docenten, maatschappelijke organisaties en vrijwilligers die met ouderen werken.',
-      videos_eyebrow:'Video\'s en verhalen', videos_title:'Zie het project tot leven komen', videos_p:'Onze promofilm en korte succesverhalen van de mensen achter Hold on, be STRONG!',
+      videos_eyebrow:'Video\'s en verhalen', videos_title:'Zie het project tot leven komen', videos_p:'Een begeleide ontspanningsoefening en korte succesverhalen van de mensen achter Hold on, be STRONG!',
       gallery_eyebrow:'Momenten uit het programma', gallery_title:'Echte workshops, echte verbinding', gallery_p:'Glimpsen van deelnemers die samen leren, bewegen en groeien op Tenerife en daarbuiten.',
       gallery_hint:'Veeg, sleep of gebruik de pijlen — er kunnen altijd meer foto\'s worden toegevoegd.',
       cta_title:'Breng het programma naar uw gemeenschap', cta_p:'Download de open toolkit, deel hem met docenten en vrijwilligers, of neem contact op voor meer informatie over Hold on, be STRONG!',
@@ -1372,7 +1392,7 @@
       a11y_summary:'Toegankelijkheidsverklaring',
       a11y_p:'Wij willen deze website voor iedereen toegankelijk maken, conform de Web Content Accessibility Guidelines (WCAG) 2.1 niveau AA en de Europese norm EN&nbsp;301&nbsp;549. De site gebruikt grote, leesbare typografie, sterk kleurcontrast, volledig met het toetsenbord bedienbare navigatie, beschrijvende alternatieve teksten voor afbeeldingen, duidelijke focusindicatoren en ondersteuning voor de systeemvoorkeur ‘beweging verminderen’. Komt u een drempel tegen of heeft u informatie in een ander formaat nodig, mail ons dan op <a href="mailto:info@tenelearning.com">info@tenelearning.com</a> en we helpen u graag.',
       footer_copyright:'© 2026 Hold on, be STRONG! — Te goeder trouw gedeeld voor docenten en gemeenschappen.', footer_cc:'Gelicentieerd onder CC BY 4.0',
-      vid_promo_k:'Promofilm', vid_story_k:'Succesverhaal', vid1_t:'Hold on, be STRONG! — Projectpromo', vid2_t:'Een groep die samen groeide', vid3_t:'Mindfulness en beweging in de natuur',
+      vid_promo_k:'Promofilm', vid_pmr_k:'Begeleide ontspanning', vid_story_k:'Succesverhaal', vid1_t:'Progressieve spierontspanning (PMR)', vid2_t:'Een groep die samen groeide', vid3_t:'Mindfulness en beweging in de natuur',
       vid_soon_h:'Binnenkort', vid_soon_p:'“{title}” verschijnt hier binnenkort — kom snel terug.',
       loc_tenerife:'Tenerife, Spanje', loc_puerto:'Puerto de la Cruz', cap_1:'Onze groep met de Erasmus+-vlag', cap_2:'Workshop digitale vaardigheden en welzijn', cap_3:'Bewuste wandeling in de botanische tuin', cap_4:'Zachte beweging en energie aan zee'
     }
@@ -1409,62 +1429,101 @@
     { src:'assets/photos/beach.jpg',      loc:'Puerto de la Cruz',     lk:'loc_puerto',   cap:'Gentle movement & energy by the sea',     ck:'cap_4' },
   ];
   const track = document.getElementById('galleryTrack');
-  track.innerHTML = PHOTOS.map(p=>`
-    <figure class="gphoto">
+  track.innerHTML = PHOTOS.map((p, i)=>`
+    <figure class="gphoto" role="button" tabindex="0" data-i="${i}" aria-label="View larger: ${p.cap}, ${p.loc}">
       <img src="${p.src}" alt="${p.cap}, ${p.loc}" loading="lazy" />
       <figcaption class="cap"><span class="loc"><i data-lucide="map-pin"></i> <span data-i18n="${p.lk}">${p.loc}</span></span><p data-i18n="${p.ck}">${p.cap}</p></figcaption>
     </figure>`).join('');
 
-  /* ---- Videos: promo + success stories (add real links in `url`) ---- */
-  const VIDEOS = [
-    { feat:true, k:'Promo film',    kk:'vid_promo_k', title:'Hold on, be STRONG! — Project promo', tk:'vid1_t', poster:'assets/photos/workshop.jpg',  url:'' },
-    { k:'Success story', kk:'vid_story_k', title:'A group that grew together',        tk:'vid2_t', poster:'assets/photos/group-flag.jpg', url:'' },
-    { k:'Success story', kk:'vid_story_k', title:'Mindfulness & movement in nature',  tk:'vid3_t', poster:'assets/photos/garden.jpg',     url:'' },
-  ];
+  /* ---- Videos: PMR relaxation guide (16:9) + participant success stories (9:16) ---- */
+  const ytEmbed = (id) => `https://www.youtube.com/embed/${id}?rel=0`;
+  const IFRAME_ATTR = 'loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen';
+  const PMR_VIDEO = { id:'nKMRZCsH1YE', kk:'vid_pmr_k', tk:'vid1_t' };
+  const STORY_IDS = ['EJYwcrtYvQA', 'bpmu48XGdAE', 'aYtQCVfdCao', 'X1nhNVQ_U0k'];
   const videoWrap = document.getElementById('videoWrap');
-  const vCardHtml = (v, feat) => `
-    <button class="${feat ? 'vfeat' : 'vcard'}" data-url="${v.url}" data-title-key="${v.tk}" aria-label="Play: ${v.title}">
-      <img class="vthumb" src="${v.poster}" alt="" loading="lazy" />
-      <span class="vscrim"></span>
-      <span class="vplay"><i data-lucide="play"></i></span>
-      <span class="vmeta"><span class="k" data-i18n="${v.kk}">${v.k}</span><h3 data-i18n="${v.tk}">${v.title}</h3></span>
-    </button>`;
-  const featV = VIDEOS.find(v => v.feat);
-  const restV = VIDEOS.filter(v => !v.feat);
-  videoWrap.innerHTML = vCardHtml(featV, true) + `<div class="vstories">${restV.map(v => vCardHtml(v, false)).join('')}</div>`;
+  videoWrap.innerHTML = `
+    <figure class="vfeature reveal">
+      <div class="vembed vembed--wide">
+        <iframe src="${ytEmbed(PMR_VIDEO.id)}" title="Progressive Muscle Relaxation (PMR)" ${IFRAME_ATTR}></iframe>
+      </div>
+      <figcaption class="vcap">
+        <span class="vk" data-i18n="${PMR_VIDEO.kk}">Guided relaxation</span>
+        <span class="vt" data-i18n="${PMR_VIDEO.tk}">Progressive Muscle Relaxation (PMR)</span>
+      </figcaption>
+    </figure>
+    <div class="vstories">
+      ${STORY_IDS.map((id, i) => `
+        <figure class="vstory reveal" data-d="${i + 1}">
+          <div class="vembed vembed--tall">
+            <iframe src="${ytEmbed(id)}" title="Participant success story ${i + 1}" ${IFRAME_ATTR}></iframe>
+          </div>
+          <figcaption class="vcap"><span class="vk" data-i18n="vid_story_k">Success story</span></figcaption>
+        </figure>`).join('')}
+    </div>`;
 
   snapshotEN();
   applyI18n();
   if (window.lucide) lucide.createIcons();
 
-  /* ---- Video modal (accessible dialog) ---- */
-  const vmodal = document.getElementById('vmodal');
-  const vbody = document.getElementById('vmodalBody');
-  const vclose = document.getElementById('vmodalClose');
-  let vLastFocus = null;
-  function openVideo(url, titleKey) {
-    vLastFocus = document.activeElement;
-    const title = tr(titleKey);
-    if (url) {
-      const sep = url.includes('?') ? '&' : '?';
-      vbody.innerHTML = `<iframe src="${url}${sep}autoplay=1" title="${title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
-    } else {
-      vbody.innerHTML = `<div class="vmodal-empty"><i data-lucide="clapperboard"></i><h4>${tr('vid_soon_h')}</h4><p>${tr('vid_soon_p').replace('{title}', title)}</p></div>`;
-      if (window.lucide) lucide.createIcons();
-    }
-    vmodal.classList.add('open');
+  /* ---- Gallery lightbox (accessible dialog) ---- */
+  const lightbox = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lbImg');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbLoc   = document.getElementById('lbLoc');
+  const lbCount = document.getElementById('lbCount');
+  const lbClose = document.getElementById('lbClose');
+  const lbPrev  = document.getElementById('lbPrev');
+  const lbNext  = document.getElementById('lbNext');
+  let lbIndex = 0, lbLastFocus = null;
+
+  /* Use the EN literal for English, the STR translation otherwise (mirrors applyI18n) */
+  const photoText = (key, fallback) =>
+    (LANG !== 'EN' && STR[LANG] && STR[LANG][key] != null) ? STR[LANG][key] : fallback;
+
+  function renderLbCaption() {
+    const p = PHOTOS[lbIndex];
+    lbTitle.textContent = photoText(p.ck, p.cap);
+    lbLoc.innerHTML = `<i data-lucide="map-pin"></i> ${photoText(p.lk, p.loc)}`;
+    lbCount.textContent = `${lbIndex + 1} / ${PHOTOS.length}`;
+    if (window.lucide) lucide.createIcons();
+  }
+  function showPhoto(i, animate) {
+    lbIndex = (i + PHOTOS.length) % PHOTOS.length;   // wrap around both ends
+    const p = PHOTOS[lbIndex];
+    const apply = () => {
+      lbImg.src = p.src;
+      lbImg.alt = `${photoText(p.ck, p.cap)}, ${photoText(p.lk, p.loc)}`;
+      renderLbCaption();
+      lbImg.classList.remove('swap');
+    };
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (animate && !reduce) { lbImg.classList.add('swap'); setTimeout(apply, 190); }
+    else apply();
+  }
+  function openLightbox(i) {
+    lbLastFocus = document.activeElement;
+    showPhoto(i, false);
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
     document.body.classList.add('menu-open');
-    vclose.focus();
+    lbClose.focus();
   }
-  function closeVideo() {
-    vmodal.classList.remove('open');
-    vbody.innerHTML = '';
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    lightbox.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('menu-open');
-    if (vLastFocus) vLastFocus.focus();
+    if (lbLastFocus) lbLastFocus.focus();
   }
-  videoWrap.addEventListener('click', (e) => { const b = e.target.closest('[data-url]'); if (b) openVideo(b.dataset.url, b.dataset.titleKey); });
-  vclose.addEventListener('click', closeVideo);
-  vmodal.addEventListener('click', (e) => { if (e.target === vmodal) closeVideo(); });
+  track.addEventListener('click', (e) => { const f = e.target.closest('.gphoto'); if (f) openLightbox(+f.dataset.i); });
+  track.addEventListener('keydown', (e) => {
+    const f = e.target.closest('.gphoto');
+    if (f && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openLightbox(+f.dataset.i); }
+  });
+  lbClose.addEventListener('click', closeLightbox);
+  lbPrev.addEventListener('click', () => showPhoto(lbIndex - 1, true));
+  lbNext.addEventListener('click', () => showPhoto(lbIndex + 1, true));
+  /* Close when clicking the dark backdrop (outside the image / controls) */
+  lightbox.addEventListener('click', (e) => { if (!e.target.closest('.lb-content') && !e.target.closest('button')) closeLightbox(); });
 
   /* ---- Module detail modal (accessible dialog) ---- */
   const mmodal = document.getElementById('mmodal');
@@ -1575,6 +1634,10 @@
   lang.querySelectorAll('.lang-menu button').forEach(b => b.addEventListener('click', () => { setLang(b.dataset.lang); toggleLang(false); }));
   document.addEventListener('click', (e) => { if (!lang.contains(e.target)) toggleLang(false); });
   document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('open') && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+      showPhoto(lbIndex + (e.key === 'ArrowRight' ? 1 : -1), true);
+      return;
+    }
     if (mmodal.classList.contains('open') && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
       const target = mmCurrent + (e.key === 'ArrowRight' ? 1 : -1);
       if (target >= 1 && target <= 12) openModule(target);
@@ -1582,7 +1645,7 @@
     }
     if (e.key !== 'Escape') return;
     toggleLang(false);
-    if (vmodal.classList.contains('open')) closeVideo();
+    if (lightbox.classList.contains('open')) closeLightbox();
     if (mmodal.classList.contains('open')) closeModule();
     if (mobileMenu.classList.contains('open')) closeMenu();
   });
@@ -1608,6 +1671,7 @@
       mmContent.innerHTML = moduleHTML(mmCurrent);
       if (window.lucide) lucide.createIcons();
     }
+    if (lightbox.classList.contains('open')) renderLbCaption();
   };
   document.querySelectorAll('#mmLangs button').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
   window.addEventListener('resize', () => { if (window.innerWidth > 940 && mobileMenu.classList.contains('open')) closeMenu(); });
