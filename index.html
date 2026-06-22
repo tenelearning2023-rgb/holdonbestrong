@@ -326,25 +326,23 @@
   .mm-langs button[aria-current="true"] { background: var(--red-600); color: #fff; border-color: var(--red-600); }
   body.menu-open { overflow: hidden; }
 
-  /* ============ VIDEOS ============ */
+  /* ============ VIDEOS (single carousel) ============ */
   .videos { background: var(--paper); }
-  .video-wrap { display: flex; flex-direction: column; gap: 38px; margin-top: 54px; }
+  .video-carousel { margin-top: 50px; }
+  .vtrack { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 4px 2px 10px; -ms-overflow-style: none; scrollbar-width: none; }
+  .vtrack::-webkit-scrollbar { display: none; }
+  @media (prefers-reduced-motion: reduce) { .vtrack { scroll-behavior: auto; } }
+  .vslide { flex: 0 0 clamp(232px, 26%, 288px); scroll-snap-align: start; min-width: 0; }
 
-  /* Clean aspect-ratio embeds — iframes scale perfectly, no black bars */
+  /* Clean aspect-ratio embeds — every video is 9:16, iframes scale with no black bars */
   .vembed { position: relative; width: 100%; border-radius: var(--r-lg); overflow: hidden; background: var(--ink-900); box-shadow: var(--sh-2); }
-  .vembed--wide { aspect-ratio: 16 / 9; }
   .vembed--tall { aspect-ratio: 9 / 16; }
   .vembed iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 
-  .vfeature { width: 100%; max-width: 940px; margin-inline: auto; }
-  .vstories { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-  .vstory { min-width: 0; }
-
-  .vcap { display: flex; flex-direction: column; align-items: center; gap: 9px; margin-top: 16px; text-align: center; }
-  .vstory .vcap { margin-top: 13px; gap: 0; }
-  .vcap .vk { font-family: var(--font-display); font-weight: 700; font-size: 12px; letter-spacing: .07em; text-transform: uppercase; color: var(--red-600); background: var(--red-100); padding: 6px 14px; border-radius: 100px; }
-  .vstory .vcap .vk { font-size: 11px; padding: 5px 12px; }
-  .vcap .vt { font-family: var(--font-display); font-weight: 800; font-size: 22px; color: var(--ink-900); line-height: 1.18; }
+  .vcap { min-height: 60px; margin-top: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+  .vcap .vk { font-family: var(--font-display); font-weight: 700; font-size: 11.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--red-600); background: var(--red-100); padding: 5px 13px; border-radius: 100px; }
+  .vcap .vt { font-family: var(--font-display); font-weight: 800; font-size: 16.5px; color: var(--ink-900); line-height: 1.2; }
+  .video-carousel .car-nav { justify-content: center; margin-top: 26px; }
 
   /* ============ GALLERY LIGHTBOX ============ */
   .gphoto { cursor: pointer; }
@@ -450,7 +448,7 @@
     .nav-links, .lang { display: none; }
     .nav-toggle { display: inline-grid; place-items: center; width: 50px; height: 50px; border-radius: 12px; border: 1.5px solid var(--line); background: #fff; cursor: pointer; }
     .nav-toggle svg { width: 26px; height: 26px; }
-    .vstories { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+    .vslide { flex: 0 0 clamp(220px, 38%, 280px); }
   }
   @media (max-width: 680px) {
     body { font-size: 18px; }
@@ -462,7 +460,7 @@
     .facts { flex-wrap: wrap; }
     .partner { flex-direction: column; text-align: center; }
     .gphoto { flex: 0 0 82%; }
-    .vcap .vt { font-size: 20px; }
+    .vslide { flex: 0 0 66%; }
     .brand img { height: 52px; }
     .footer-bottom { flex-direction: column; align-items: flex-start; }
     .lb-close, .lb-arrow { width: 44px; height: 44px; }
@@ -626,7 +624,13 @@
       <h2 id="videos-title" data-i18n="videos_title">Watch the project come to life</h2>
       <p data-i18n="videos_p">A guided relaxation exercise and short success stories from the people behind Hold on, be STRONG!</p>
     </div>
-    <div class="video-wrap" id="videoWrap"></div>
+    <div class="video-carousel reveal">
+      <div class="vtrack" id="videoTrack" tabindex="0" aria-label="Video carousel — scroll or use the arrows"></div>
+      <div class="car-nav">
+        <button class="car-btn" id="vidPrev" type="button" aria-label="Previous videos"><i data-lucide="arrow-left"></i></button>
+        <button class="car-btn" id="vidNext" type="button" aria-label="Next videos"><i data-lucide="arrow-right"></i></button>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1435,31 +1439,32 @@
       <figcaption class="cap"><span class="loc"><i data-lucide="map-pin"></i> <span data-i18n="${p.lk}">${p.loc}</span></span><p data-i18n="${p.ck}">${p.cap}</p></figcaption>
     </figure>`).join('');
 
-  /* ---- Videos: PMR relaxation guide (16:9) + participant success stories (9:16) ---- */
+  /* ---- Videos: one carousel — PMR guide + participant stories (all 9:16 vertical) ---- */
+  /* Add more videos any time; give one a `tk`/`t` title or it falls back to a numbered story label. */
   const ytEmbed = (id) => `https://www.youtube.com/embed/${id}?rel=0`;
   const IFRAME_ATTR = 'loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen';
-  const PMR_VIDEO = { id:'nKMRZCsH1YE', kk:'vid_pmr_k', tk:'vid1_t' };
-  const STORY_IDS = ['EJYwcrtYvQA', 'bpmu48XGdAE', 'aYtQCVfdCao', 'X1nhNVQ_U0k'];
-  const videoWrap = document.getElementById('videoWrap');
-  videoWrap.innerHTML = `
-    <figure class="vfeature reveal">
-      <div class="vembed vembed--wide">
-        <iframe src="${ytEmbed(PMR_VIDEO.id)}" title="Progressive Muscle Relaxation (PMR)" ${IFRAME_ATTR}></iframe>
+  const VIDEOS = [
+    { id:'nKMRZCsH1YE', kk:'vid_pmr_k',   k:'Guided relaxation', tk:'vid1_t', t:'Progressive Muscle Relaxation (PMR)' },
+    { id:'EJYwcrtYvQA', kk:'vid_story_k', k:'Success story' },
+    { id:'bpmu48XGdAE', kk:'vid_story_k', k:'Success story' },
+    { id:'aYtQCVfdCao', kk:'vid_story_k', k:'Success story' },
+    { id:'X1nhNVQ_U0k', kk:'vid_story_k', k:'Success story' },
+  ];
+  const videoTrack = document.getElementById('videoTrack');
+  let storyN = 0;
+  videoTrack.innerHTML = VIDEOS.map((v) => {
+    const title = v.t || `Participant success story ${++storyN}`;
+    return `
+    <figure class="vslide">
+      <div class="vembed vembed--tall">
+        <iframe src="${ytEmbed(v.id)}" title="${title}" ${IFRAME_ATTR}></iframe>
       </div>
       <figcaption class="vcap">
-        <span class="vk" data-i18n="${PMR_VIDEO.kk}">Guided relaxation</span>
-        <span class="vt" data-i18n="${PMR_VIDEO.tk}">Progressive Muscle Relaxation (PMR)</span>
+        <span class="vk" data-i18n="${v.kk}">${v.k}</span>
+        ${v.tk ? `<span class="vt" data-i18n="${v.tk}">${v.t}</span>` : ''}
       </figcaption>
-    </figure>
-    <div class="vstories">
-      ${STORY_IDS.map((id, i) => `
-        <figure class="vstory reveal" data-d="${i + 1}">
-          <div class="vembed vembed--tall">
-            <iframe src="${ytEmbed(id)}" title="Participant success story ${i + 1}" ${IFRAME_ATTR}></iframe>
-          </div>
-          <figcaption class="vcap"><span class="vk" data-i18n="vid_story_k">Success story</span></figcaption>
-        </figure>`).join('')}
-    </div>`;
+    </figure>`;
+  }).join('');
 
   snapshotEN();
   applyI18n();
@@ -1607,20 +1612,23 @@
   });
   mmodal.addEventListener('click', (e) => { if (e.target === mmodal) closeModule(); });
 
-  /* ---- Carousel controls ---- */
-  const carPrev = document.getElementById('carPrev');
-  const carNext = document.getElementById('carNext');
-  const step = () => { const card = track.querySelector('.gphoto'); return card ? card.offsetWidth + 22 : 320; };
-  const updateCar = () => {
-    const max = track.scrollWidth - track.clientWidth - 2;
-    carPrev.disabled = track.scrollLeft <= 2;
-    carNext.disabled = track.scrollLeft >= max;
-  };
-  carPrev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
-  carNext.addEventListener('click', () => track.scrollBy({ left:  step(), behavior: 'smooth' }));
-  track.addEventListener('scroll', () => requestAnimationFrame(updateCar), { passive: true });
-  window.addEventListener('resize', updateCar);
-  updateCar();
+  /* ---- Carousel controls (shared by gallery + videos) ---- */
+  function setupCarousel(trackEl, prevBtn, nextBtn, cardSel) {
+    if (!trackEl || !prevBtn || !nextBtn) return;
+    const step = () => { const c = trackEl.querySelector(cardSel); return c ? c.offsetWidth + 22 : 320; };
+    const update = () => {
+      const max = trackEl.scrollWidth - trackEl.clientWidth - 2;
+      prevBtn.disabled = trackEl.scrollLeft <= 2;
+      nextBtn.disabled = trackEl.scrollLeft >= max;
+    };
+    prevBtn.addEventListener('click', () => trackEl.scrollBy({ left: -step(), behavior: 'smooth' }));
+    nextBtn.addEventListener('click', () => trackEl.scrollBy({ left:  step(), behavior: 'smooth' }));
+    trackEl.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  }
+  setupCarousel(track, document.getElementById('carPrev'), document.getElementById('carNext'), '.gphoto');
+  setupCarousel(videoTrack, document.getElementById('vidPrev'), document.getElementById('vidNext'), '.vslide');
 
   /* ---- Header scroll state ---- */
   const header = document.getElementById('header');
